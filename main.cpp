@@ -5,20 +5,21 @@ using namespace std;
 
 int main(int argc, char** argv) {
     Parse parse = Parse(argc, argv);
-    Sniffer sniffer = Sniffer();
 
     parse.parseArguments();
 
     if (parse.doPrintInterfaces()) {
+        Sniffer sniffer = Sniffer();
         sniffer.list_active_interfaces();
         return 0;
     }
 
     // bool udp = parse.getUdp();
     // bool tcp = parse.getTcp();
+    Sniffer sniffer = Sniffer(parse.getInterface());
 
     string filter = parse.getFilter();
-    sniffer.apply_filter(filter);
+    sniffer.applyFilter(filter);
 
     sniffer.capture(parse.getPacketsCnt());
     

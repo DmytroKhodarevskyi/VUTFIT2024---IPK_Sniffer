@@ -22,7 +22,7 @@ Parse::Parse(int argc, char** argv) :
     port_source(0), port_destination(0), port_both(0),
     icmp4(false), icmp6(false),
     arp(false), ndp(false), igmp(false), mld(false), 
-    packets_cnt(0), 
+    packets_cnt(1), 
     interface(""),
     
     display_interfaces(false),
@@ -34,10 +34,17 @@ Parse::Parse(int argc, char** argv) :
 void Parse::parseArguments() {
   int opt;
   int option_index = 0;
-  while ((opt = getopt_long(argc, argv, "is:d:p:tua46gmn:", long_options, &option_index)) != -1) {
+  opterr = 0;
+  while ((opt = getopt_long(argc, argv, "i:s:d:p:tua46gmn:", long_options, &option_index)) != -1) {
     switch (opt) {
       case 'i':
-        interface = optarg ? optarg : "";
+        // interface = optarg ? optarg : "aboba";
+        if (optarg != NULL) {
+          interface = optarg;
+        }
+        else {
+          interface = "";
+        }
         break;
       case 's':
         port_source = std::stoi(optarg);
@@ -108,12 +115,16 @@ void Parse::parseArguments() {
   //   cerr << "Cannot filter by both ICMPv6 and ARP" << std::endl;
   //   exit(EXIT_FAILURE);
   // }
-  
+
   constructFilter();
 
 }
 
 void Parse::additionalFilter() {
+  if (tcp) 
+    filter.append("tcp or ");
+  if (udp)
+    filter.append("udp or ");
   if (icmp4) 
     filter.append("icmp or ");
   if (icmp6) 
@@ -194,5 +205,9 @@ bool Parse::getUdp() const {
 
 unsigned int Parse::getPacketsCnt() const {
   return packets_cnt;
+}
+
+string Parse::getFilter() const {
+  return filter;
 }
 

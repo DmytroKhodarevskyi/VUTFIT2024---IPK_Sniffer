@@ -58,6 +58,8 @@ class Parse {
       bool doFilterByPort();
 
       void constructFilter();
+      void additionalFilter();
+
 
 
   private:
