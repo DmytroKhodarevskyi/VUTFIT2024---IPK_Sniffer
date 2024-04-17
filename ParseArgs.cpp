@@ -11,7 +11,7 @@ struct option long_options[] = {
     {"icmp6",             no_argument,       0, '6'},
     {"igmp",              no_argument,       0, 'g'},
     {"mld",               no_argument,       0, 'm'},
-    {"ndp",               no_argument,       0, 'n'},
+    {"ndp",               no_argument,       0, 'x'},
     {0, 0, 0, 0}
 };
 
@@ -26,7 +26,6 @@ Parse::Parse(int argc, char** argv) :
     interface(""),
     
     display_interfaces(false),
-    filter_by_port(false),
 
     filter("")
     {}
@@ -38,7 +37,6 @@ void Parse::parseArguments() {
   while ((opt = getopt_long(argc, argv, "i:s:d:p:tua46gmn:", long_options, &option_index)) != -1) {
     switch (opt) {
       case 'i':
-        // interface = optarg ? optarg : "aboba";
         if (optarg != NULL) {
           interface = optarg;
         }
@@ -48,14 +46,12 @@ void Parse::parseArguments() {
         break;
       case 's':
         port_source = std::stoi(optarg);
-        filter_by_port = true;
         filter.append("src port " + std::to_string(port_source));
         filter.append(" ");
         filter.append("or ");
         break;
       case 'd':
         port_destination = std::stoi(optarg);
-        filter_by_port = true;
         filter.append("dst port " + std::to_string(port_destination));
         break;
       case 't':
@@ -63,9 +59,6 @@ void Parse::parseArguments() {
         break;
       case 'p':
         port_both = std::stoi(optarg);
-        port_source = -1;
-        port_destination = -1;
-        filter_by_port = true;
         break;
       case 'u':
         udp = true;
@@ -88,43 +81,26 @@ void Parse::parseArguments() {
       case 'n':
         packets_cnt = std::stoi(optarg);
         break;
+      case 'x':
+        ndp = true;
+        break;
       case '?':
-        // Handle unknown options or missing option arguments
         interface = "";
         break;
     }
   }
 
   if ((interface.empty() && argc == 2) || (argc == 1)) {
-      // cerr << "No interface specified. Here is a list of available interfaces: ..." << std::endl;
       display_interfaces = true;
       return;
-      // Code to list interfaces
   }
-
-  // if (port_source == 0 && port_destination == 0) {
-  //   filter_by_port = false;
-  // }
-
-  // if (icmp4 && ndp) {
-  //   cerr << "Cannot filter by both ICMPv4 and NDP" << std::endl;
-  //   exit(EXIT_FAILURE);
-  // }
-
-  // if (icmp6 && mld) {
-  //   cerr << "Cannot filter by both ICMPv6 and ARP" << std::endl;
-  //   exit(EXIT_FAILURE);
-  // }
 
   constructFilter();
 
 }
 
 void Parse::additionalFilter() {
-  if (tcp) 
-    filter.append("tcp or ");
-  if (udp)
-    filter.append("udp or ");
+
   if (icmp4) 
     filter.append("icmp or ");
   if (icmp6) 
@@ -132,7 +108,7 @@ void Parse::additionalFilter() {
   if (arp) 
     filter.append("arp or ");
   if (ndp) 
-    filter.append("ndp or ");
+    filter.append("(icmp6 and (ip6[40] == 133 or ip6[40] == 134 or ip6[40] == 135 or ip6[40] == 136 or ip6[40] == 137)) or ");
   if (igmp)
     filter.append("igmp or ");
   if (mld)
@@ -142,15 +118,20 @@ void Parse::additionalFilter() {
 }
 
 void Parse::constructFilter() {
-  if (port_both != 0) {
+  if (tcp) 
+    filter.append("tcp and ");
+  if (udp)
+    filter.append("udp and ");
+
+  if (port_both != 0 && (tcp || udp)) {
     filter.append("port " + std::to_string(port_both));
     filter.append(" or ");
   }
-  if (port_source != 0) {
+  if (port_source != 0 && (tcp || udp)) {
     filter.append("src port " + std::to_string(port_source));
     filter.append(" or ");
   }
-  if (port_destination != 0) {
+  if (port_destination != 0 && (tcp || udp)) {
     filter.append("dst port " + std::to_string(port_destination));
     filter.append(" or ");
   }
@@ -163,44 +144,8 @@ bool Parse::doPrintInterfaces() {
   return display_interfaces;
 }
 
-bool Parse::doFilterByPort() {
-  return filter_by_port;
-}
-
 string Parse::getInterface() const {
   return interface;
-}
-
-unsigned int Parse::getPortSource() const {
-  return port_source;
-}
-
-unsigned int Parse::getPortDestination() const {
-  return port_destination;
-}
-
-bool Parse::getArp() const {
-  return arp;
-}
-
-bool Parse::getNdp() const {
-  return ndp;
-}
-
-bool Parse::getIgmp() const {
-  return igmp;
-}
-
-bool Parse::getMld() const {
-  return mld;
-}
-
-bool Parse::getTcp() const {
-  return tcp;
-}
-
-bool Parse::getUdp() const {
-  return udp;
 }
 
 unsigned int Parse::getPacketsCnt() const {

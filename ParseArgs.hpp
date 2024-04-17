@@ -1,7 +1,6 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-
 #include <iostream>
 #include <cstdlib>
 #include <getopt.h>
@@ -19,7 +18,6 @@
 #include <math.h>
 #include <time.h>
 
-
 #include <netinet/ether.h>
 #include <netinet/ip.h>
 #include <netinet/ip6.h>
@@ -29,40 +27,58 @@
 #include <netinet/tcp.h>
 #include <net/if_arp.h>
 
-
 using namespace std;
 
 extern struct option long_options[];
 
-
 class Parse {
 
   public:
+      /**
+       * @brief Construct a new Parse object
+      */
       Parse(int argc, char** argv);
 
+      /**
+       * @brief Parse the arguments
+      */
       void parseArguments();
 
+      /**
+       * @brief Get the interface
+       * @return Interface name string
+      */
       string getInterface() const;
-      unsigned int getPortSource() const;
-      unsigned int getPortDestination() const;
-      bool getArp() const;
-      bool getNdp() const;
-      bool getIgmp() const;
-      bool getMld() const;
-      bool getTcp() const;
-      bool getUdp() const;
-      unsigned int getPacketsCnt() const;
+
+      /**
+       * @brief Get the filter
+       * @return Filter string
+      */
       string getFilter() const;
 
+      /**
+       * @brief Get the packets count
+       * @return packets count  
+      */
+      unsigned int getPacketsCnt() const;
+
+      /**
+       * @brief Get the interface print flag
+       * @return display_interfaces flag
+      */
       bool doPrintInterfaces();
-      bool doFilterByPort();
-
-      void constructFilter();
-      void additionalFilter();
-
-
 
   private:
+
+    /**
+     * @brief Construct the filter
+    */
+    void constructFilter();
+    
+    /**
+     * @brief Additional filtering adding
+    */
+    void additionalFilter();
 
     int argc;
     char** argv;
@@ -82,30 +98,11 @@ class Parse {
     bool igmp;
     bool mld;
     unsigned int packets_cnt;
-    // vector<string> interfaces;
     string interface;
 
     bool display_interfaces;
-    bool filter_by_port;
 
     string filter;
-
-
-    // static struct option long_options[] = {
-    //   {"interface",         optional_argument, 0, 'i'},
-    //   {"port-source",       required_argument, 0, 's'},
-    //   {"port-destination",  required_argument, 0, 'd'},
-    //   {"tcp",               no_argument,       0, 't'},
-    //   {"udp",               no_argument,       0, 'u'},
-    //   {"arp",               no_argument,       0, 'a'},
-    //   {"icmp4",             no_argument,       0, '4'},
-    //   {"icmp6",             no_argument,       0, '6'},
-    //   {"igmp",              no_argument,       0, 'g'},
-    //   {"mld",               no_argument,       0, 'm'},
-    //   {"ndp",               no_argument,       0, 'n'},
-    //   {0, 0, 0, 0}
-    // };
-
 
 
 };

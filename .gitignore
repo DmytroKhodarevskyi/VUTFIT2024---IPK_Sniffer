@@ -49,3 +49,5 @@
 .vscode/
 
 ipk-sniffer
+
+*.py
