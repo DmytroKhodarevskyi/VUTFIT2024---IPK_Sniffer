@@ -4,4 +4,5 @@ The project can do bare minimum required by the assignment. Also, it can print o
 
 ## Possible issues
 
-There wasnt tested edge cases such as too big number of packets specified with `-n`. Also, maybe too much information is printed in packet content, comparing to `tcpdump`. Possible packet loss on high load, however it mostly depends on `libpcap` capability.
+There wasn't tested edge cases such as too big number of packets specified with `-n`. Also, maybe too much information is printed in packet content, comparing to `tcpdump`. Possible packet loss on high load, however it mostly depends on `libpcap` capability.
+Possible conflicts between different filters, if they are applied at the same time.

@@ -9,6 +9,8 @@ by **xkhoda01** - **VUT FIT** student - **Dmytro Khodarevskyi**
     - [Prerequisites](#prerequisites)
     - [Installation](#installation)
   - [Testing](#testing)
+      - [Process](#process)
+      - [I/O example](#io-example)
   - [License](#license)
   - [Acknowledgements](#acknowledgements)
 
@@ -134,13 +136,15 @@ classDiagram
       -bool list_interfaces_
     }
 
-    Parse -- Sniffer : gets info from
+    Sniffer -- Parse : gets info from
 ```
 ## Testing
 
 The project was tested by hand using `tcpdump`. Also it was tested using python script.
 
 *Some additional testing scripts were used provided by colleges to test the project and its edge cases.*
+
+#### Process
 
 ```
 Ran 8 tests in 26.291s
@@ -171,6 +175,53 @@ Sent 1 packets.
 ```
 
 In some cases `gdb` debugging was used to find the problem in the code or the *print debugging*.
+
+#### I/O example
+
+> Input from test
+```
+./ipk-sniffer -i lo -icmp6
+
+./ipk-sniffer -i lo --udp -p 12345
+```
+> Sniffer output
+```
+Timestamp: 2024-04-20T15:31:21.109+02:00
+src MAC: 00:00:00:00:00:00
+dst MAC: 00:00:00:00:00:00
+frame length: 73 bytes
+src IP: ::1
+dst IP: ::1
+byte_offset: 62
+
+0x0000:  ff ff ff ff ff ff 00 00 00 00 00 00 86 dd 60 00 ........ ......`.
+0x0010:  00 00 00 13 3a 40 00 00 00 00 00 00 00 00 00 00 ....:@.. ........
+0x0020:  00 00 00 00 00 01 00 00 00 00 00 00 00 00 00 00 ........ ........
+0x0030:  00 00 00 00 00 01 80 00 7b 37 00 00 00 00 48 65 ........ {7....He
+0x0040:  6c 6c 6f 20 49 50 76 36 21                      llo IPv6 !
+
+Timestamp: 2024-04-20T17:17:15.489+02:00
+src MAC: 00:00:00:00:00:00
+dst MAC: 00:00:00:00:00:00
+frame length: 50 bytes
+src IP: 127.0.0.1
+dst IP: 127.0.0.1
+src port: 53
+dst port: 12345
+byte_offset: 42
+
+0x0000:  ff ff ff ff ff ff 00 00 00 00 00 00 08 00 45 00 ........ ......E.
+0x0010:  00 24 00 01 00 00 40 11 7c c6 7f 00 00 01 7f 00 .$....@. |.......
+0x0020:  00 01 00 35 30 39 00 10 a4 de 54 65 73 74 20 55 ...509.. ..Test U
+0x0030:  44 50                                           DP
+```
+> Test output
+```
+Sent 1 packets.
+..
+Sent 1 packets.
+..
+```
 
 ## License
 

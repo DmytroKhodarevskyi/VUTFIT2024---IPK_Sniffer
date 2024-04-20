@@ -46,13 +46,9 @@ void Parse::parseArguments() {
         break;
       case 's':
         port_source = std::stoi(optarg);
-        filter.append("src port " + std::to_string(port_source));
-        filter.append(" ");
-        filter.append("or ");
         break;
       case 'd':
         port_destination = std::stoi(optarg);
-        filter.append("dst port " + std::to_string(port_destination));
         break;
       case 't':
         tcp = true;
@@ -118,21 +114,27 @@ void Parse::additionalFilter() {
 }
 
 void Parse::constructFilter() {
-  if (tcp) 
+  if (tcp && (port_both != 0 || port_source != 0 || port_destination != 0)) {
+    filter.append("(tcp and ");
+  } else if (tcp) {
     filter.append("tcp and ");
-  if (udp)
+  }
+  if (udp && (port_both != 0 || port_source != 0 || port_destination != 0)) {
+    filter.append("(udp and ");
+  } else if (udp) {
     filter.append("udp and ");
+  }
 
   if (port_both != 0 && (tcp || udp)) {
-    filter.append("port " + std::to_string(port_both));
+    filter.append("port " + std::to_string(port_both) + ")");
     filter.append(" or ");
   }
   if (port_source != 0 && (tcp || udp)) {
-    filter.append("src port " + std::to_string(port_source));
+    filter.append("src port " + std::to_string(port_source) + ")");
     filter.append(" or ");
   }
   if (port_destination != 0 && (tcp || udp)) {
-    filter.append("dst port " + std::to_string(port_destination));
+    filter.append("dst port " + std::to_string(port_destination) + ")");
     filter.append(" or ");
   }
 
