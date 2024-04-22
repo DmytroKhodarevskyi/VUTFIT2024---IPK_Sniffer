@@ -12,7 +12,7 @@ by **xkhoda01** - **VUT FIT** student - **Dmytro Khodarevskyi**
       - [Process](#process)
       - [I/O example](#io-example)
   - [License](#license)
-  - [Acknowledgements](#acknowledgements)
+  - [Bibliography](#bibliography)
 
 ## Introduction
 
@@ -229,9 +229,10 @@ This project is licensed under the **GNU General Public License v3.0**. This lic
 
 For more details, see the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html).
 
-## Acknowledgements
+## Bibliography
 
-- **xjerab28** - Unit tests for the project. (repository: [IPK-Sniffer-Tester](https://git.fit.vutbr.cz/xjerab28/IPK-Sniffer-Tests/src/branch/main/ipkSnifferTests.py)) 
-- **TCPDump libpcap documentation** - for helping with the project problem studying and debugging help. ([LibPcap](https://www.tcpdump.org/pcap.html))
+- Unit tests for the project: [IPK-Sniffer-Tester](https://git.fit.vutbr.cz/xjerab28/IPK-Sniffer-Tests/src/branch/main/ipkSnifferTests.py)
+- TCPDump libpcap documentation: [LibPcap](https://www.tcpdump.org/pcap.html)
+- Wikipedia, the free encyclopedia: [Wiki](http://en.wikipedia.org/wiki/Pcap)
 
 
