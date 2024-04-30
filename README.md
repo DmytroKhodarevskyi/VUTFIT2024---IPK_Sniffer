@@ -7,6 +7,7 @@ by **xkhoda01** - **VUT FIT** student - **Dmytro Khodarevskyi**
   - [Introduction](#introduction)
   - [Getting Started](#getting-started)
     - [Prerequisites](#prerequisites)
+    - [Theory](#theory)
     - [Installation](#installation)
   - [Testing](#testing)
       - [Process](#process)
@@ -28,6 +29,11 @@ These instructions will get you a copy of the project up and running on your loc
 C++ compiler and `make` utility are required to build the project. The project is tested on `g++` compiler.
 
 The client itself desired to run on **Linux OS**. The project was tested on **Ubuntu**.
+
+### Theory
+
+* The sniffer uses the `libpcap` library to capture the traffic on the network interface.
+* The sniffer can capture different types of packets, such as TCP, UDP, ICMPv4, ICMPv6, ARP, NDP, IGMP, and MLD.
 
 ### Installation
 
@@ -230,9 +236,18 @@ This project is licensed under the **GNU General Public License v3.0**. This lic
 For more details, see the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html).
 
 ## Bibliography
+<!-- 
+- Unit tests for the project: [IPK-Sniffer-Tester](https://git.fit.vutbr.cz/xjerab28/IPK-Sniffer-Tests/src/branch/main/ipkSnifferTests.py) -->
 
-- Unit tests for the project: [IPK-Sniffer-Tester](https://git.fit.vutbr.cz/xjerab28/IPK-Sniffer-Tests/src/branch/main/ipkSnifferTests.py)
-- TCPDump libpcap documentation: [LibPcap](https://www.tcpdump.org/pcap.html)
-- Wikipedia, the free encyclopedia: [Wiki](http://en.wikipedia.org/wiki/Pcap)
+IPK-Sniffer-Tester, Online, Available on Gitea https://git.fit.vutbr.cz/xjerab28/IPK-Sniffer-Tests/src/branch/main/ipkSnifferTests.py. [Accessed: 2024-04-20].
+
+<!-- - TCPDump libpcap documentation: [LibPcap](https://www.tcpdump.org/pcap.html) -->
+
+TCPDump libpcap documentation, Online, Available on https://www.tcpdump.org/pcap.html. [Accessed: 2024-04-20].
+<!-- - Wikipedia, the free encyclopedia: [Wiki](http://en.wikipedia.org/wiki/Pcap) -->
+
+Wikipedia, the free encyclopedia, Online, Available on http://en.wikipedia.org/wiki/Pcap. [Accessed: 2024-04-20].
+
+
 
 
